@@ -2,10 +2,12 @@ package com.mg_devjoint.library_management.service.impl;
 
 import com.mg_devjoint.library_management.dto.request.*;
 import com.mg_devjoint.library_management.dto.response.*;
+import com.mg_devjoint.library_management.exception.DuplicateEmailException;
 import com.mg_devjoint.library_management.exception.InvalidTokenException;
 import com.mg_devjoint.library_management.model.RefreshToken;
 import com.mg_devjoint.library_management.model.User;
 import com.mg_devjoint.library_management.security.CustomUserDetails;
+import com.mg_devjoint.library_management.security.infra.JwtService;
 import com.mg_devjoint.library_management.service.*;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -43,6 +45,8 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public CreateUserResponse createUser(CreateUserRequest request) {
 
+        validateUniqueEmail(request.email());
+
         String temporaryPassword = generateTemporaryPassword();
 
         // TODO: ERASE AFTER DEVELOPMENT
@@ -66,6 +70,14 @@ public class AuthServiceImpl implements AuthService {
         mailService.sendMail(user.getEmail(), temporaryPassword);
 
         return response;
+    }
+
+    private void validateUniqueEmail(String email) {
+        boolean emailExist = userService.isEmailExist(email);
+
+        if (emailExist) {
+            throw new DuplicateEmailException("Email already exsits");
+        }
     }
 
     @Override

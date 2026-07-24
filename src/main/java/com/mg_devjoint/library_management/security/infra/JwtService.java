@@ -1,8 +1,6 @@
-package com.mg_devjoint.library_management.service;
+package com.mg_devjoint.library_management.security.infra;
 
-import com.mg_devjoint.library_management.model.User;
 import com.mg_devjoint.library_management.model.enums.UserRole;
-import com.mg_devjoint.library_management.security.CustomUserDetails;
 
 import java.util.UUID;
 

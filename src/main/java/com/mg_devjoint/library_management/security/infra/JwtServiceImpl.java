@@ -1,7 +1,6 @@
-package com.mg_devjoint.library_management.service.impl;
+package com.mg_devjoint.library_management.security.infra;
 
 import com.mg_devjoint.library_management.model.enums.UserRole;
-import com.mg_devjoint.library_management.service.JwtService;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;

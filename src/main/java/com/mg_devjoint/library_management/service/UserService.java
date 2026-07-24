@@ -11,5 +11,7 @@ public interface UserService {
 
     User findUserById(UUID userId);
 
-   CreateUserResponse createUser(User user);
+    CreateUserResponse createUser(User user);
+
+    boolean isEmailExist(String email);
 }
