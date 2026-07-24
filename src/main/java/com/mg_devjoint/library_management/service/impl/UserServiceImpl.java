@@ -1,6 +1,7 @@
 package com.mg_devjoint.library_management.service.impl;
 
 import com.mg_devjoint.library_management.dto.response.CreateUserResponse;
+import com.mg_devjoint.library_management.exception.DuplicateEmailException;
 import com.mg_devjoint.library_management.exception.NotFoundException;
 import com.mg_devjoint.library_management.model.User;
 import com.mg_devjoint.library_management.repository.UserRepository;
@@ -32,6 +33,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public CreateUserResponse createUser(User user) {
+
+        validateUniqueEmail(user.getEmail());
+
         User savedUser = userRepository.save(user);
 
         return new CreateUserResponse(
@@ -45,8 +49,15 @@ public class UserServiceImpl implements UserService {
 
     }
 
-    @Override
-    public boolean isEmailExist(String email) {
+    private void validateUniqueEmail(String email) {
+        boolean emailExist = isEmailExist(email);
+
+        if (emailExist) {
+            throw new DuplicateEmailException("Email already exists");
+        }
+    }
+
+    private boolean isEmailExist(String email) {
         return userRepository.existsByEmail(email);
     }
 

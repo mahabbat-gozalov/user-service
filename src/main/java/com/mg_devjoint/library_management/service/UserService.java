@@ -13,5 +13,4 @@ public interface UserService {
 
     CreateUserResponse createUser(User user);
 
-    boolean isEmailExist(String email);
 }

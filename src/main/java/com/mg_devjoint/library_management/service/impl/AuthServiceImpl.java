@@ -2,13 +2,14 @@ package com.mg_devjoint.library_management.service.impl;
 
 import com.mg_devjoint.library_management.dto.request.*;
 import com.mg_devjoint.library_management.dto.response.*;
-import com.mg_devjoint.library_management.exception.DuplicateEmailException;
 import com.mg_devjoint.library_management.exception.InvalidTokenException;
 import com.mg_devjoint.library_management.model.RefreshToken;
 import com.mg_devjoint.library_management.model.User;
 import com.mg_devjoint.library_management.security.CustomUserDetails;
 import com.mg_devjoint.library_management.security.infra.JwtService;
 import com.mg_devjoint.library_management.service.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -21,12 +22,15 @@ import java.security.SecureRandom;
 @Service
 public class AuthServiceImpl implements AuthService {
 
+    private final Logger log = LoggerFactory.getLogger(AuthServiceImpl.class);
+
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
     private final RefreshTokenService refreshTokenService;
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
     private final MailService mailService;
+
 
     public AuthServiceImpl(AuthenticationManager authenticationManager,
                            JwtService jwtService,
@@ -45,14 +49,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public CreateUserResponse createUser(CreateUserRequest request) {
 
-        validateUniqueEmail(request.email());
-
         String temporaryPassword = generateTemporaryPassword();
-
-        // TODO: ERASE AFTER DEVELOPMENT
-        System.out.println("====================================");
-        System.out.println(temporaryPassword);
-        System.out.println("====================================");
 
         String encodedInitialPassword = passwordEncoder.encode(temporaryPassword);
 
@@ -65,6 +62,9 @@ public class AuthServiceImpl implements AuthService {
                 request.role()
         );
 
+        // TODO: ERASE AFTER DEVELOPMENT
+        log.debug("Temporary password for {}: {}", user.getEmail(), temporaryPassword);
+
         CreateUserResponse response = userService.createUser(user);
 
         mailService.sendMail(user.getEmail(), temporaryPassword);
@@ -72,13 +72,6 @@ public class AuthServiceImpl implements AuthService {
         return response;
     }
 
-    private void validateUniqueEmail(String email) {
-        boolean emailExist = userService.isEmailExist(email);
-
-        if (emailExist) {
-            throw new DuplicateEmailException("Email already exsits");
-        }
-    }
 
     @Override
     public LoginResponse login(LoginRequest request) {

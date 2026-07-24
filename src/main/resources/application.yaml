@@ -24,3 +24,8 @@ security:
     expiration-milliseconds: 900000
   refresh-token:
     expiration-milliseconds: 2592000000
+
+
+logging:
+  level:
+    com.mg_devjoint.library_management: DEBUG
