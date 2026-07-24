@@ -1,17 +1,14 @@
 package com.mg_devjoint.library_management.security;
 
 import com.mg_devjoint.library_management.model.User;
+import com.mg_devjoint.library_management.model.enums.UserRole;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
-public class CustomUserDetails implements UserDetails {
-
-    private User user;
-
+public record CustomUserDetails(User user) implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -33,5 +30,13 @@ public class CustomUserDetails implements UserDetails {
     @Override
     public boolean isEnabled() {
         return user.isEnabled();
+    }
+
+    public UUID getId() {
+        return user.getId();
+    }
+
+    public UserRole getRole() {
+        return user.getRole();
     }
 }

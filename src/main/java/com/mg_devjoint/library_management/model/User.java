@@ -31,14 +31,28 @@ public class User {
     @Column(name = "surname")
     private String surname;
 
-    @Column(name = "phone_numer")
+    @Column(name = "phone_number")
     private String phoneNumber;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    @Column(name ="enabled")
+    @Column(name = "enabled")
     private boolean enabled;
+
+    public User() {
+    }
+
+    public User(String email, String password ,String name, String surname, String phoneNumber, UserRole role) {
+        this.email = email;
+        this.password = password;
+        this.role = role;
+        this.name = name;
+        this.surname = surname;
+        this.phoneNumber = phoneNumber;
+        this.createdAt = LocalDateTime.now();
+        this.enabled = true;
+    }
 
     public String getEmail() {
         return email;
@@ -54,5 +68,25 @@ public class User {
 
     public boolean isEnabled() {
         return enabled;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public String getName() {
+    return this.name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 }
