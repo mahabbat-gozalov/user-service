@@ -1,6 +1,7 @@
 package com.mg_devjoint.library_management.model;
 
 
+import com.mg_devjoint.library_management.model.enums.UserRole;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -30,10 +31,28 @@ public class User {
     @Column(name = "surname")
     private String surname;
 
-    @Column(name = "phone")
-    private String phone;
+    @Column(name = "phone_numer")
+    private String phoneNumber;
 
     @Column(name = "created_at")
-    LocalDateTime createdAt;
+    private LocalDateTime createdAt;
 
+    @Column(name ="enabled")
+    private boolean enabled;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public UserRole getRole() {
+        return role;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
 }
