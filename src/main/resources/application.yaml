@@ -18,6 +18,18 @@ spring:
     username: library_management_user
     password: ${LIBRARY_MANAGEMENT_APP_DB_PASSWORD}
 
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_LIBRARY_APP_USERNAME}
+    password: ${MAIL_LIBRARY_APP_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
 security:
   jwt-secret-key: ${JWT_USER_SECRET_KEY}
   access-token:
@@ -29,3 +41,4 @@ security:
 logging:
   level:
     com.mg_devjoint.library_management: DEBUG
+

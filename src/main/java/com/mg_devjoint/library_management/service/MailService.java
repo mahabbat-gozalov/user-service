@@ -1,5 +1,5 @@
 package com.mg_devjoint.library_management.service;
 
 public interface MailService {
-    public void sendMail(String email, String content);
+    public void sendTemporaryPasswordEmail(String email, String sendTemporaryPasswordEmail);
 }

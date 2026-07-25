@@ -61,12 +61,9 @@ public class AuthServiceImpl implements AuthService {
                 request.role()
         );
 
-        // TODO: ERASE AFTER DEVELOPMENT
-        log.debug("Temporary password for {}: {}", user.getEmail(), temporaryPassword);
-
         CreateUserResponse response = userService.createUser(user);
 
-        mailService.sendMail(user.getEmail(), temporaryPassword);
+        mailService.sendTemporaryPasswordEmail(user.getEmail(), temporaryPassword);
 
         return response;
     }
