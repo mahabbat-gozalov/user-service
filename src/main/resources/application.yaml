@@ -1,6 +1,6 @@
 spring:
   application:
-    name: library-management
+    name: auth_service
 
   jpa:
     hibernate:
@@ -40,5 +40,5 @@ security:
 
 logging:
   level:
-    com.mg_devjoint.library_management: DEBUG
+    com.mg_devjoint.auth_service: DEBUG
 
