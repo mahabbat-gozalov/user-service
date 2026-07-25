@@ -1,7 +1,5 @@
 package com.mg_devjoint.library_management.dto.response;
 
-import com.mg_devjoint.library_management.model.enums.UserRole;
-
 import java.util.UUID;
 
 public record CreateUserResponse(
@@ -10,6 +8,18 @@ public record CreateUserResponse(
         String name,
         String surname,
         String phoneNumber,
-        String role
+        String role,
+        boolean temporaryPasswordEmailSent
 ) {
+    public CreateUserResponse withTemporaryPasswordEmailSent(boolean sent) {
+        return new CreateUserResponse(userId,
+                email,
+                name,
+                surname,
+                phoneNumber,
+                role,
+                sent
+        );
+    }
+
 }

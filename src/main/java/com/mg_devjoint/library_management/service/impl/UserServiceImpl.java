@@ -44,7 +44,8 @@ public class UserServiceImpl implements UserService {
                 savedUser.getName(),
                 savedUser.getSurname(),
                 savedUser.getPhoneNumber(),
-                savedUser.getRole().name()
+                savedUser.getRole().name(),
+                false
         );
 
     }

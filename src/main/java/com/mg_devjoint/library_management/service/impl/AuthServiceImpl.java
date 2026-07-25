@@ -61,11 +61,13 @@ public class AuthServiceImpl implements AuthService {
                 request.role()
         );
 
+        log.debug("Temporary password for {}: {}", user.getEmail(), temporaryPassword);
+
         CreateUserResponse response = userService.createUser(user);
 
-        mailService.sendTemporaryPasswordEmail(user.getEmail(), temporaryPassword);
+        boolean emailSent = mailService.sendTemporaryPasswordEmail(user.getEmail(), temporaryPassword);
 
-        return response;
+        return response.withTemporaryPasswordEmailSent(emailSent);
     }
 
 

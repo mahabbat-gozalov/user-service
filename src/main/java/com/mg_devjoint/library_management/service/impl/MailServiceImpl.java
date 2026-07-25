@@ -22,7 +22,7 @@ public class MailServiceImpl implements MailService {
 
 
     @Override
-    public void sendTemporaryPasswordEmail(String email, String temporaryPassword) {
+    public boolean sendTemporaryPasswordEmail(String email, String temporaryPassword) {
         try {
 
             String htmlBody = buildTemporaryPasswordEmailBody(temporaryPassword);
@@ -37,8 +37,11 @@ public class MailServiceImpl implements MailService {
 
             mailSender.send(message);
 
+            return true;
+
         } catch (MessagingException | MailException e) {
             log.error("Error sending temporary password email", e);
+            return false;
         }
     }
 
