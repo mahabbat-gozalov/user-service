@@ -2,7 +2,6 @@ package com.mg_devjoint.library_management.service.impl;
 
 import com.mg_devjoint.library_management.dto.request.*;
 import com.mg_devjoint.library_management.dto.response.*;
-import com.mg_devjoint.library_management.exception.InvalidTokenException;
 import com.mg_devjoint.library_management.model.RefreshToken;
 import com.mg_devjoint.library_management.model.User;
 import com.mg_devjoint.library_management.security.CustomUserDetails;
@@ -88,18 +87,13 @@ public class AuthServiceImpl implements AuthService {
         return new LoginResponse(accessToken, refreshToken);
     }
 
-    //TODO: THINK ABOUT ENTOTY GRAPH
     @Override
     @Transactional
     public RefreshResponse refresh(RefreshRequest request) {
 
         RefreshToken refreshTokenByValue = refreshTokenService.getRefreshTokenByValue(request.refreshToken());
 
-        boolean isRefreshTokenValid = refreshTokenService.isRefreshTokenValid(refreshTokenByValue);
-
-        if (!isRefreshTokenValid) {
-            throw new InvalidTokenException("Invalid refresh token");
-        }
+        refreshTokenService.validateRefreshToken(refreshTokenByValue);
 
         User user = refreshTokenByValue.getUser();
 
@@ -110,7 +104,6 @@ public class AuthServiceImpl implements AuthService {
         String refreshToken = refreshTokenService.createRefreshToken(user.getId());
 
         return new RefreshResponse(accessToken, refreshToken);
-
     }
 
     private String generateTemporaryPassword() {
